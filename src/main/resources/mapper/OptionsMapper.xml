@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.OptionsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.Options">
+		<id column="id" property="id" />
+		<result column="topic_id" property="topicId" />
+		<result column="optionsname" property="optionsname" />
+		<result column="img" property="img" />
+		<result column="instruction" property="instruction" />
+		<result column="score" property="score" />
+		<result column="problem" property="problem" />
+		<result column="mutex" property="mutex" />
+		
+		
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, topic_id, optionsname, img, instruction, score, problem
+    </sql>
+     <select id="getOptions" resultMap="BaseResultMap">
+   		select id,optionsname ,score from options where topic_id = #{id2}
+   </select>
+   
+   <select id="getOptionsList" resultMap="BaseResultMap">
+   		select * from options where topic_id = #{id2}
+   </select>
+   <select id="getOptionsLi" resultMap="BaseResultMap">
+   		select * from options where topic_id = #{id3}
+   </select>
+ 
+   
+    <delete id="deleteoptions" parameterType="com.nao.scale.pojo.Options">
+    	delete from `options` where topic_id = #{id}
+    </delete>
+   
+   <select id="getOption" resultMap="BaseResultMap">
+   		select * from  options where topic_id = #{id1}
+   </select>
+   
+   <update id="updatebyTopicID" parameterType="com.nao.scale.pojo.Options">
+   		update `options` set optionsname=#{optionsname},img=#{img},instruction=#{instruction},score=#{score},problem=#{problem} where topic_id=#{topicId}
+   </update>
+   
+   <update id="updateByTopicID" parameterType="com.nao.scale.pojo.Options">
+   		update `options` set optionsname=#{optionsname} where topic_id=#{topicId}
+   </update>
+   
+	<delete id="delete" parameterType="com.nao.scale.pojo.Options">
+		delete from `options` where topic_id = #{id}
+	</delete>
+	
+	<select id="seleimg" resultMap="BaseResultMap">
+		select img from options where topic_id=#{integer}
+	</select>
+	
+	<insert id="insertOptions" parameterType="com.nao.scale.pojo.Options">
+		INSERT INTO options SET topic_id = #{topicId},optionsname = #{optionsname},img = #{img},instruction = #{instruction},score = #{score},problem = #{problem},mutex = #{mutex}
+	</insert>
+	
+	<select id="selectOptList"    resultType="java.lang.String">
+	      select optionsname from options where id =#{integer} and topic_id=#{id}
+	      </select>
+	        
+</mapper>

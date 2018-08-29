@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.TopicMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.Topic">
+		<id column="id" property="id" />
+		<result column="bark" property="bark" />
+		<result column="topicname" property="topicname" />
+		<result column="img" property="img" />
+		<result column="instruction" property="instruction" />
+		<result column="ttname" property="ttname" />
+		<result column="record" property="record" />
+		<result column="scale_id" property="scaleId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bark, topicname, img, instruction, ttname, record, scale_id
+    </sql>
+    
+    <select id="selectBark" resultType="java.lang.Integer">
+    	select bark  from topic where id=#{id}
+    </select>
+    <select id="selectupbrak"  resultType="java.lang.Integer">
+    	SELECT  bark  FROM  topic  WHERE  bark  &lt; #{bark}  ORDER BY bark DESC  LIMIT 0,1
+    </select>
+    <update id="updateMove" parameterType="com.nao.scale.pojo.Topic" >
+    	UPDATE topic SET bark =#{bark} WHERE bark = #{bark2}
+    </update>
+    <update id="update" parameterType="com.nao.scale.pojo.Topic" >
+    	UPDATE topic SET bark =#{bark2} WHERE id = #{id}
+    </update>
+    
+    
+     
+    
+    
+    
+    
+    
+     <select id="selectbrakdown" resultType="java.lang.Integer">
+    	select bark  from topic where id=#{id}
+    </select>
+    <select id="selectdownbrak"  resultType="java.lang.Integer">
+    	SELECT  bark  FROM  topic  WHERE  bark  &gt; #{bark}  ORDER BY bark LIMIT 0,1
+    </select>
+    <update id="updateDown" parameterType="com.nao.scale.pojo.Topic" >
+    	UPDATE topic SET bark =#{bark} WHERE bark = #{bark2}
+    </update>
+    <update id="updateD" parameterType="com.nao.scale.pojo.Topic" >
+    	UPDATE topic SET bark =#{bark2} WHERE id = #{id}
+    </update>
+    
+    
+    
+    
+   <select id="getTopic" resultMap="BaseResultMap">
+   		select id,topicname,ttname ,bark from topic where scale_id=#{id1} order by bark asc 
+   </select>
+    <select id="getTopicList" resultMap="BaseResultMap">
+   		select * from topic where scale_id=#{id1} order by bark asc
+   </select>
+   <select id="getTopicBark" resultMap="BaseResultMap">
+   		select  bark  from topic where scale_id=#{id1} order by bark asc
+   </select>
+   
+   <select id="getTopList" resultMap="BaseResultMap">
+   		select * from topic where scale_id=#{id1} order by bark asc limit 1
+   </select>
+   
+	
+	<delete id="DeleteTopic" parameterType="com.nao.scale.pojo.Topic">
+		delete from topic where id =#{id}
+	</delete>
+	
+	
+	<select id="getScale" resultMap="BaseResultMap">
+		SELECT t.id, t.topicname,t.img,t.instruction,t.ttname,GROUP_CONCAT(a.aid) aid FROM topic t, scale_t_a a WHERE t.id = a.tid AND t.id =#{id}
+	</select>
+	
+	
+	<select id="loadTopicID" resultType="java.lang.Integer">
+		select id from topic where topicname = #{topicname}
+	</select>
+	
+	<insert id="insertTopic" keyProperty="id" parameterType="com.nao.scale.pojo.Topic">
+	 <selectKey keyProperty='id' resultType='int' order='AFTER'  >  
+        select LAST_INSERT_ID();  
+    </selectKey> 
+					INSERT INTO topic
+						SET 
+					 topicname = #{topicname},
+					 img = #{img},
+					 instruction = #{instruction},
+					 ttname = #{ttname},
+					 record = #{record},
+					 scale_id = #{scaleId}
+	</insert>
+	<update id="insertbark" parameterType="com.nao.scale.pojo.Topic" >
+		UPDATE  topic set bark = #{id} where id =#{id}
+	</update>
+	    
+	    
+	  <select id="selectCount" resultMap="BaseResultMap">
+	  	 select topicname ,id from topic  where record='true' and ttname = 'text' and scale_id = #{scaleId}
+	  </select>
+	    
+	  <select id="selectbyScaleID" resultMap="BaseResultMap">
+	  	select img from topic where scale_id=#{scaleId} and ttname!='text'
+	  </select>
+	  <select id="selectID" resultType="java.lang.Integer">
+	 	 select id from topic where scale_id=#{scaleId}  and ttname!='text'
+	  </select>
+	  
+	  <update id="updateById" parameterType="com.nao.scale.pojo.Topic">
+	  	UPDATE topic
+			SET topicname = #{topicname},
+			 img = #{img},
+			 instruction = #{instruction},
+			 ttname = #{ttname},
+			 record = #{record}
+			WHERE
+				id = #{id}
+	  </update>
+	    
+	    <select id="selectTop" resultMap="BaseResultMap">
+	    	SELECT * FROM topic  WHERE bark > #{id2} ORDER BY bark LIMIT 0,1
+	    </select>
+	    
+	     <select id="setectTopicName" resultMap="BaseResultMap">
+	    	SELECT  id,topicname ,ttname  FROM topic  WHERE scale_id=#{scaleId} ORDER BY bark asc
+	    </select>
+	    
+	     <select id="getattr" resultMap="BaseResultMap">
+     select s.id from scale_attribute s ,scale_t_a a,topic t where s.id=a.aid and a.tid=t.id and t.id =#{id2}
+     
+     </select>
+	    
+</mapper>

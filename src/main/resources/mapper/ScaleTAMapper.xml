@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.ScaleTAMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.ScaleTA">
+		<id column="id" property="id" />
+		<result column="tid" property="tid" />
+		<result column="aid" property="aid" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tid, aid
+    </sql>
+    
+    <select id="getScaleTA" resultMap="BaseResultMap">
+    	select * from scale_t_a where tid=#{id}
+    </select>
+    <delete id="delete" parameterType="com.nao.scale.pojo.ScaleTA">
+    	delete from scale_t_a where tid = #{id}
+    </delete>
+    <select id="getScaleta" resultMap="BaseResultMap">
+    		SELECT
+			a.id,a.`name`
+			FROM
+			scale_t_a t LEFT JOIN
+			scale_attribute a on t.aid = a.id
+		WHERE
+			t.tid = #{id2}
+    </select>
+    
+    <select id="selectAttr" resultMap="BaseResultMap">
+    	select t.aid ,a.`name` from topic c left join scale_t_a t on c.id=t.tid  left join scale_attribute a  on a.id = t.aid where c.id =#{topicId} b
+    </select>
+    
+</mapper>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.ScaleAttributeMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.ScaleAttribute">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="fid" property="fid" />
+		<result column="level" property="level" />
+		<result column="isEnd" property="isEnd" />
+		<result column="scale_id" property="scaleId" />
+		<result column="score" property="score" />
+		<result column="M" property="M" />
+		<result column="S" property="S" />
+		<result column="A" property="A" />
+		<result column="B" property="B" />
+		
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, fid, level, isEnd, scale_id
+    </sql>
+    
+   <select id="loadScaleAttr" resultType="com.nao.scale.pojo.ScaleAttribute">
+  	 	select * from scale_attribute  where  `level` 	&lt; 4  and scale_id =#{scaleId}
+   </select>
+   
+   <insert id="insertAttr" parameterType="com.nao.scale.pojo.ScaleAttribute">
+   		insert into scale_attribute set name=#{name},fid=#{fid},level=#{level} &#43; 1,isEnd=#{isEnd},scale_id=#{scaleId}
+   </insert>
+    <select id="selectListtopic" resultType="com.nao.scale.pojo.ScaleAttribute">
+  	 	select id,name from scale_attribute where isEnd = 0 and  scale_id =#{scaleId}
+   </select>
+   <select id="getAttr" resultMap="BaseResultMap">
+   	select id,name,level from scale_attribute where scale_id = #{scaleId}
+   </select>
+   <select id="selectbyFid" resultMap="BaseResultMap">
+   	select fid from scale_attribute where name = #{name}
+   </select>
+   <update id="updateIsEnd" parameterType="int">
+   		update scale_attribute set isEnd =1 where id=#{fid}
+   </update>
+   
+ 	<select id="loadscore" resultMap="BaseResultMap">
+ 		select id,score,m,s,a,b from scale_attribute where scale_id=#{scaleId}
+ 	</select>
+   
+   <select id="getScaleta" resultMap="BaseResultMap">
+   				SELECT a.id,a.`name`
+			FROM
+			scale_t_a t LEFT JOIN
+			scale_attribute a on t.aid = a.id
+		WHERE
+			t.tid = #{id2}
+   </select>
+  <select id="getScaletaLi" resultMap="BaseResultMap">
+   				SELECT
+			a.id,a.`name`
+			FROM
+			scale_t_a t LEFT JOIN
+			scale_attribute a on t.aid = a.id
+		WHERE
+			t.tid = #{id3}
+   </select>
+   
+   <update id="updateById" parameterType="int">
+   		update scale_attribute set score =#{score},M =#{M},S =#{S},A =#{A},B =#{B} where id=#{id}
+   </update>
+   
+    <select id="selectListScore" resultMap="BaseResultMap">
+   		SELECT a.id, a.name,r.rinform from scale_attribute a LEFT JOIN
+	 report r on  a.id = r.attr_id 
+	where a.scale_id=#{scaleId} and a.fid = 0 and r.user_id=#{userId}
+   </select>
+   
+   <select id="selectListSc" resultMap="BaseResultMap">
+   		SELECT a.id, a.name,r.rinform from scale_attribute a LEFT JOIN
+	 report r on  a.id = r.attr_id 
+	where a.scale_id=#{scaleId} and a.fid = #{id} and r.user_id=#{userId}
+   </select>
+   <select id="selectListS" resultMap="BaseResultMap">
+   		SELECT a.id, a.name,r.rinform from scale_attribute a LEFT JOIN
+	 report r on  a.id = r.attr_id 
+	where a.scale_id=#{scaleId} and a.fid = #{id2} and r.user_id=#{userId}
+   </select>
+    <select id="selectList" resultMap="BaseResultMap">
+   		SELECT a.id, a.name,r.rinform from scale_attribute a LEFT JOIN
+	 report r on  a.id = r.attr_id 
+	where a.scale_id=#{scaleId} and a.fid = #{id3} and r.user_id=#{userId}
+   </select>
+   
+   <select id="selectFid" resultType="java.lang.String">
+   		select fid from  scale_attribute where id = #{string}
+   </select>
+   
+   <select id="selectFi" resultType="java.lang.String">
+   		select fid from  scale_attribute where id = #{fid}
+   </select>
+   
+   <select id="selectF"  resultType="java.lang.String">
+   	select fid from  scale_attribute where id = #{fid2}
+   </select>
+   
+     <select id="selectscore" resultType="java.lang.Integer">
+   		select score from scale_attribute where id =#{integer}
+   </select>
+   
+   <select id="selectMSAB" resultMap="BaseResultMap">
+   		select M,S,A,B from  scale_attribute where id = #{integer}
+   </select>
+   
+   <select id="selectListOne" resultMap="BaseResultMap">
+   	select * from scale_attribute where scale_id=#{scaleId} and fid=0
+   </select>
+   
+   <select id="selectListTwo" resultMap="BaseResultMap">
+   select * from scale_attribute where scale_id=#{scaleId} and fid=#{id}
+   </select>
+   
+   
+    <select id="getxml" resultMap="BaseResultMap">
+   select * from scale_attribute where scale_id=#{id}
+   </select>
+   
+   <select id="getScaleAttribute" resultMap="BaseResultMap">
+		   	SELECT
+			a.`name`
+		FROM
+			scale_attribute a,
+			scale_t_a s,
+			topic t
+		WHERE
+			a.id = s.aid
+		AND s.tid = t.id
+		AND t.id = #{id2}
+   </select>
+   
+    <select id="getAtt" resultMap="BaseResultMap">
+   select * from scale_attribute where scale_id=#{id}
+   </select>
+   
+</mapper>
+   

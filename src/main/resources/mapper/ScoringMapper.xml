@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.ScoringMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.Scoring">
+		<id column="id" property="id" />
+		<result column="attr_id" property="attrId" />
+		<result column="topic_id" property="topicId" />
+		<result column="context" property="context" />
+		<result column="score" property="score" />
+		<result column="user_id" property="userId" />
+		<result column="scale_id" property="scaleId" />
+		<result column="options_id" property="optionsId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, attr_id, topic_id, options_id, instructions, user_id, scale_id
+    </sql>
+    
+    <select id="selectOptList" resultMap="BaseResultMap">
+    	select context from scoring where topic_id=#{id}  and scale_id=#{scaleId}  and user_id = #{userId} 
+    </select>
+        
+    <select id="selectScoringList"  resultType="java.lang.Integer"  >
+    	select options_id from scoring where  user_id=#{userId} and scale_id=#{scaleId} and topic_id=#{id}
+    </select>
+    
+    <delete id="deleteScoring" parameterType="com.nao.scale.pojo.Scoring">
+    		delete from scoring where topic_id=#{topicId} AND user_id=#{userId} and scale_id = #{scaleId}
+    </delete>
+    
+    <select id="Submitcount" resultType="java.lang.Integer">
+    	select attr_id from scoring where user_id=#{userId} and scale_id=#{scaleId}
+    </select>
+    
+    <select id="selectByTopicID" resultMap="BaseResultMap" >
+    	select context from scoring where topic_id=#{id} and  user_id=#{userId}
+    </select>
+    <select id="selectOption" resultType="java.lang.Integer">
+    	select options_id from scoring where attr_id=#{integer}
+    </select>
+    
+    <select id="selectScore" resultType="java.lang.Integer">
+    	select score from scoring where options_id=#{integer2}
+    </select>
+    <select id="selectOptionsID" resultType="java.lang.Integer">
+    	select options_id from scoring where user_id=#{userId} and scale_id=#{scaleId}
+    </select>
+    
+    <select id="selectS" resultType="java.lang.Integer">
+    	select score from scoring where options_id=#{integer2}
+    </select>
+    
+    <select id="selectScoring"  resultMap="BaseResultMap">
+    	select * from scoring where topic_id=#{topicId} AND user_id=#{userId} and scale_id = #{scaleId}
+    </select>
+    
+    
+
+	<select id="selectText" resultMap="BaseResultMap">
+		select context from scoring where topic_id = #{id}
+	</select>    
+	
+		
+</mapper>
+
+
+ 

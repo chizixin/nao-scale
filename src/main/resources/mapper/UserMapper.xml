@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nao.scale.mapper.UserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.nao.scale.pojo.User">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="phone" property="phone" />
+		<result column="age" property="age" />
+		<result column="sex" property="sex" />
+		<result column="hand" property="hand" />
+		<result column="educationId" property="educationId" />
+		<result column="bir" property="bir" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, phone, age, sex, hand, educationId,bir
+    </sql>
+    
+	<insert id="insertUser" keyProperty="id" parameterType="com.nao.scale.pojo.User">
+	     <selectKey keyProperty='id' resultType='int' order='AFTER'  >  
+	        select LAST_INSERT_ID();  
+	    </selectKey> 
+    			INSERT INTO user
+					SET username = #{username},
+					 phone = #{phone},
+					 age = #{age},
+					 sex = #{sex},
+					 hand = #{hand},
+					 educationId = #{educationId},
+					 bir=#{bir}
+					 
+    </insert>
+    
+      <select id="selectUser" resultMap="BaseResultMap">
+    	select * from user where id=#{userId}
+    </select>
+    
+</mapper>

@@ -1,0 +1,12 @@
+   _      ____  ____        ____  ____  ____  _     _____
+/ \  /|/  _ \/  _ \      / ___\/   _\/  _ \/ \   /  __/
+| |\ ||| / \|| / \|_____ |    \|  /  | / \|| |   |  \  
+| | \||| |-||| \_/|\____\\___ ||  \_ | |-||| |_/\|  /_ 
+\_/  \|\_/ \|\____/      \____/\____/\_/ \|\____/\____\
+                                                       
+
+application.version:${application.version} 
+application.formatted-version:${application.formatted-version}                         
+spring-boot.version:${spring-boot.version}  
+spring-boot.formatted-version:${spring-boot.formatted-version}
+${AnsiColor.BRIGHT_BLUE}
